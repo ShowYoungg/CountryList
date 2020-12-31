@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/list_layout"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/country_flag"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/nigeria"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/country_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/colorAccent"
+        tools:text="Nigeria"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>
