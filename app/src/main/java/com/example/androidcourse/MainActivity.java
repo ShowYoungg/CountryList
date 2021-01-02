@@ -8,11 +8,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
     //private ListView listView;
-    private GridView gridView;
+    //private GridView gridView;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //listView = findViewById(R.id.list);
-        gridView = findViewById(R.id.list);
+        //gridView = findViewById(R.id.list);
+        recyclerView = findViewById(R.id.list);
+
         ArrayList<Country> countries = new ArrayList<>();
         countries.add(new Country("Nigeria", R.drawable.nigeria, "Nigeria is a multi-cultural country with over 100 languages and dialects. It has a  population of 209 million"));
         countries.add(new Country("Ghana", R.drawable.ghana, "Ghana is a country in West Africa region colonised by The Great Britain"));
@@ -33,8 +38,14 @@ public class MainActivity extends AppCompatActivity {
         countries.add(new Country("The USA", R.drawable.usa, "The United State of America is the world leader in terms of military, economy, education among many others"));
         countries.add(new Country("NewZealand", R.drawable.new_zealand, "NewZealand is a native English speaking country with one of the world best economy as Australia "));
 
-        CountryAdapter countryAdapter = new CountryAdapter(this, countries);
+        //CountryAdapter countryAdapter = new CountryAdapter(this, countries);
         //listView.setAdapter(countryAdapter);
-        gridView.setAdapter(countryAdapter);
+        //gridView.setAdapter(countryAdapter);
+
+        CountryRecyclerAdapter countryRecyclerAdapter = new CountryRecyclerAdapter(this, countries);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(countryRecyclerAdapter);
     }
 }
