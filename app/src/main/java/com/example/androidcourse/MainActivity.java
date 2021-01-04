@@ -1,13 +1,27 @@
 package com.example.androidcourse;
 
 
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.GridView;
-import android.widget.ListView;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,9 +57,55 @@ public class MainActivity extends AppCompatActivity {
         //gridView.setAdapter(countryAdapter);
 
         CountryRecyclerAdapter countryRecyclerAdapter = new CountryRecyclerAdapter(this, countries);
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        //recyclerView.setLayoutManager(gridLayoutManager);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(countryRecyclerAdapter);
+
+
+//        new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//            }
+//
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//            }
+//        };
+
+//        final Handler handler = new Handler(){
+//            @Override
+//            public void handleMessage(@NonNull Message msg) {
+//                //super.handleMessage(msg);
+//                if (msg.what == 0){
+//                    updateUI();
+//                } else {
+//                    //showError();
+//                }
+//            }
+//        };
+//
+//        Thread thread = new Thread(){
+//            @Override
+//            public void run() {
+//
+//                getResponseFromHttpUrl();
+//                if (succeed){
+//                    handler.sendEmptyMessage(0);
+//                } else {
+//                    handler.sendEmptyMessage(1);
+//                }
+//            }
+//        };
     }
+
 }
