@@ -50,6 +50,7 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
                     Intent intent = new Intent(context, DescriptionActivity.class );
                     intent.putExtra("Description", country.getCountryDescription());
                     intent.putExtra("Flag", country.getCountryFlag());
+                    intent.putExtra("Currency", country.getCurrency());
                     context.startActivity(intent);
                 }
             });

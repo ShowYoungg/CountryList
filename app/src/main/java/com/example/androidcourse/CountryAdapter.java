@@ -51,6 +51,7 @@ public class CountryAdapter extends ArrayAdapter<Country> {
                     Intent intent = new Intent(context, DescriptionActivity.class );
                     intent.putExtra("Description", country.getCountryDescription());
                     intent.putExtra("Flag", country.getCountryFlag());
+                    intent.putExtra("Currency", country.getCurrency());
                     context.startActivity(intent);
                 }
             });
