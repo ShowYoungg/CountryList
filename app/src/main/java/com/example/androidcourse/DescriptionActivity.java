@@ -1,10 +1,7 @@
 package com.example.androidcourse;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +33,21 @@ public class DescriptionActivity extends AppCompatActivity {
     private ImageView flagImage;
     private ProgressBar progressBar;
 
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        String textInsideDescriptionTextView = description.getText().toString();
+        outState.putString("DescriptionTextView", textInsideDescriptionTextView);
+        //outState.putString("CurrencyPair", currencyPair);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +68,7 @@ public class DescriptionActivity extends AppCompatActivity {
 
         final String urlString = "http://www.apilayer.net/api/live?access_key=YOUR_API_KEY";
 
-//        new AsyncTask<Void, Void, String>() {
+        //        new AsyncTask<Void, Void, String>() {
 //            @Override
 //            protected String doInBackground(Void... voids) {
 //                String jsonResponse = null;
@@ -77,36 +88,42 @@ public class DescriptionActivity extends AppCompatActivity {
 //            }
 //        }.execute();
 
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                //super.handleMessage(msg);
-                if (msg.what == 0) {
-                    //Toast.makeText(DescriptionActivity.this, jsonResponse, Toast.LENGTH_SHORT).show();
-                    parseJSON(jsonResponse);
+        if (savedInstanceState == null) {
 
-                } else {
-                    //showError();
-                }
-            }
-        };
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    //super.handleMessage(msg);
+                    if (msg.what == 0) {
+                        //Toast.makeText(DescriptionActivity.this, jsonResponse, Toast.LENGTH_SHORT).show();
+                        parseJSON(jsonResponse);
 
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    jsonResponse = getResponseFromHttpUrl(urlString);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    } else {
+                        //showError();
+                    }
                 }
-                Log.i("JSONRESSS", jsonResponse);
-                if (!jsonResponse.equals("")) {
-                    handler.sendEmptyMessage(0);
-                } else {
-                    handler.sendEmptyMessage(1);
+            };
+
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        jsonResponse = getResponseFromHttpUrl(urlString);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("JSONRESSS", jsonResponse);
+                    if (!jsonResponse.equals("")) {
+                        handler.sendEmptyMessage(0);
+                    } else {
+                        handler.sendEmptyMessage(1);
+                    }
                 }
-            }
-        }.start();
+            }.start();
+
+        } else {
+            description.setText(savedInstanceState.getString("DescriptionText"));
+        }
 
 
     }
@@ -140,7 +157,7 @@ public class DescriptionActivity extends AppCompatActivity {
         }
     }
 
-    private void parseJSON(String json){
+    private void parseJSON(String json) {
         try {
             JSONObject mainJSONObject = new JSONObject(json);
             boolean success = mainJSONObject.getBoolean("success");
@@ -157,11 +174,10 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
 
-
     public void resultDialog() {
         new AlertDialog.Builder(DescriptionActivity.this)
                 .setTitle(getResources().getString(R.string.app_name))
-                .setMessage("The currency pair is " + currencyPair + " and will be appended to the description text" )
+                .setMessage("The currency pair is " + currencyPair + " and will be appended to the description text")
                 .setNegativeButton("DECLINE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

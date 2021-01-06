@@ -1,12 +1,15 @@
 package com.example.androidcourse;
 
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,11 +33,24 @@ public class MainActivity extends AppCompatActivity {
     //private ListView listView;
     //private GridView gridView;
     private RecyclerView recyclerView;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPreferences != null){
+            int visitCode = 0;
+            visitCode = sharedPreferences.getInt("VisitCode", 0);
+            if (visitCode == 1){
+                Toast.makeText(this, "You are an existing user", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Welcome New User", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         //listView = findViewById(R.id.list);
         //gridView = findViewById(R.id.list);
@@ -52,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         countries.add(new Country("The USA", R.drawable.usa, "The United State of America is the world leader in terms of military, economy, education among many others", "USD"));
         countries.add(new Country("NewZealand", R.drawable.new_zealand, "NewZealand is a native English speaking country with one of the world best economy as Australia", "NZD"));
 
+
         //CountryAdapter countryAdapter = new CountryAdapter(this, countries);
         //listView.setAdapter(countryAdapter);
         //gridView.setAdapter(countryAdapter);
@@ -64,5 +81,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(countryRecyclerAdapter);
 
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("VisitCode", 1);
+        //editor.putString("VisitCode", "Existing User");
+        //editor.putBoolean("VisitCode", true);
+        editor.apply();
     }
 }
